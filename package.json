@@ -1,0 +1,16 @@
+{
+  "name": "thismeetingiscosting.us",
+  "version": "0.0.0",
+  "description": "a simple app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fyaconiello/thismeetingiscosting.us.git"
+  },
+  "author": "Francis Yaconiello",
+  "license": "MIT"
+}
