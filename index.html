@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>This Meeting Is Costing Us...</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <script src="js/angular.min.js"></script>
+    <script src="js/timer.js"></script>
+    <script>
+        angular.module('MyApp', ['timer']);
+        function MyAppController($scope) {
+            $scope.timerRunning = true;
+            
+            $scope.$on('timer-tick', function (x, e) {
+                $scope.dollars = 0.00;
+                
+                if($scope.persons != undefined && $scope.rate != undefined)
+                {
+                    $scope.dollars = ($scope.persons * $scope.rate) * (e.millis / (1000 * 60 *60));
+                }
+                else
+                {
+                    $scope.dollars = 0.00;
+                }
+                
+                $scope.dollars;
+            });
+
+            $scope.startTimer = function (){
+                $scope.$broadcast('timer-start');
+                $scope.timerRunning = true;
+            };
+
+            $scope.stopTimer = function (){
+                $scope.$broadcast('timer-stop');
+                $scope.timerRunning = false;
+            };
+        }
+        MyAppController.$inject = ['$scope'];
+    </script>
+</head>
+<body ng-app="MyApp" class="container">
+    
+    <div ng-controller="MyAppController">
+        <form class="form-signin">
+            <h2 class="form-signin-heading">ThisMeetingIsCosting.Us</h2>
+            <input type="text" ng-model="persons" placeholder="How many people are in this meeting?" class="input-block-level" autofocus>
+            <input type="text" ng-model="rate" placeholder="What is your hourly rate?">
+            <h3><timer>{{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer></h3>
+            <button ng-click="startTimer()" ng-disabled="timerRunning" class="btn btn-large btn-primary btn-block">Start</button>
+            <button ng-click="stopTimer()" ng-disabled="!timerRunning" class="btn btn-large btn-primary btn-block">Stop</button>
+            <h1 class="form-signin-heading">{{dollars|currency:"USD $"}}</h1>
+        </form>
+    </div>
+    
+</body>
+</html>
